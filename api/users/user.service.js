@@ -18,6 +18,23 @@ const findUser = (userData, callbackFunction) => {
     );
 };
 
+const addUser = (userData, callbackFunction) => {
+    pool.query(
+        `
+        INSERT INTO users(firstName, lastName, email, dob, password)
+        VALUES(?, ?, ?, ?, ?)
+        `,
+        [userData.firstName, userData.lastName, userData.email, userData.dob, userData.password],
+        (error, results, fields) => {
+            if (error) {
+                callbackFunction("error", error);
+            }
+
+            callbackFunction("success", null);
+        }
+    );
+};
+
 module.exports = {
     findUser,
 };
