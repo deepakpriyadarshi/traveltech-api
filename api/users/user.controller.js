@@ -52,6 +52,34 @@ const registerUser = (request, response) => {
     });
 };
 
+const getDetails = (request, response) => {
+    const userData = request.tokenData.data;
+
+    findUser(userData, (status, data) => {
+        if (status === "error") {
+            return response.status(500).json({
+                status: "error",
+                message: "Some Unexpected Error Happened",
+            });
+        } else if (status === "notexists") {
+            return response.status(200).json({
+                status: "notexists",
+                message: "User Not Found",
+                data: null,
+            });
+        } else if (status === "success") {
+            delete data.password;
+
+            return response.status(200).json({
+                status: "success",
+                message: "User Details Found",
+                data: data,
+            });
+        }
+    });
+};
+
 module.exports = {
     registerUser,
+    getDetails,
 };
