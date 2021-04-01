@@ -13,7 +13,9 @@ const findUser = (userData, callbackFunction) => {
                 callbackFunction("error", error);
             }
 
-            callbackFunction("success", results[0]);
+            if (results.length === 1) callbackFunction("success", results[0]);
+
+            callbackFunction("notexists", null);
         }
     );
 };
@@ -24,17 +26,18 @@ const addUser = (userData, callbackFunction) => {
         INSERT INTO users(firstName, lastName, email, dob, password)
         VALUES(?, ?, ?, ?, ?)
         `,
-        [userData.firstName, userData.lastName, userData.email, userData.dob, userData.password],
+        [userData.firstName, userData.lastName, userData.email, userData.dob, userData.hashedPassword],
         (error, results, fields) => {
             if (error) {
                 callbackFunction("error", error);
             }
 
-            callbackFunction("success", null);
+            callbackFunction("success", results);
         }
     );
 };
 
 module.exports = {
     findUser,
+    addUser,
 };

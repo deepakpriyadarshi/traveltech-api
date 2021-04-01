@@ -8,6 +8,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+const userRouter = require("./api/users/user.router");
+
+app.use("/api/user", userRouter);
+
 app.listen(process.env.APP_PORT, () => {
     console.log(`Server Listening On ${process.env.APP_PORT}`);
 });
