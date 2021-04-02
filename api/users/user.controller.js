@@ -98,7 +98,7 @@ const getDetails = (request, response) => {
                 message: "Some Unexpected Error Happened",
             });
         } else if (status === "notexists") {
-            return response.status(200).json({
+            return response.status(500).json({
                 status: "notexists",
                 message: "User Not Found",
                 data: null,

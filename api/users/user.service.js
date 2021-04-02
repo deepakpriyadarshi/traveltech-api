@@ -1,3 +1,4 @@
+const e = require("express");
 const pool = require("../../config/database");
 
 const findUser = (userData, callbackFunction) => {
@@ -13,9 +14,11 @@ const findUser = (userData, callbackFunction) => {
                 callbackFunction("error", error);
             }
 
-            if (results.length === 1) callbackFunction("success", results[0]);
-
-            callbackFunction("notexists", null);
+            if (results.length === 1) {
+                callbackFunction("success", results[0]);
+            } else {
+                callbackFunction("notexists", null);
+            }
         }
     );
 };
@@ -30,9 +33,9 @@ const addUser = (userData, callbackFunction) => {
         (error, results, fields) => {
             if (error) {
                 callbackFunction("error", error);
+            } else {
+                callbackFunction("success", results);
             }
-
-            callbackFunction("success", results);
         }
     );
 };
